@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVENGERS - Earth's Mightiest Heroes</title>
+    <meta name="description" content="Official Avengers Character Showcase - Explore Earth's Mightiest Heroes">
+    
+    <style>
+        /* ===== FONTS & RESET ===== */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Bebas+Neue&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #e23636;
+            --primary-blue: #0d7ab5;
+            --primary-gold: #ffd700;
+            --bg-dark: #0a0a0f;
+            --bg-darker: #050508;
+            --text-light: #f0f0f0;
+            --text-muted: #a0a0a0;
+            --glow-red: rgba(226, 54, 54, 0.5);
+            --glow-blue: rgba(13, 122, 181, 0.5);
+            --glow-gold: rgba(255, 215, 0, 0.5);
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-darker);
+            color: var(--text-light);
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* ===== CUSTOM CURSOR ===== */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary-red);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.2s ease, border-color 0.3s ease;
+            mix-blend-mode: difference;
+        }
+
+        .custom-cursor.active {
+            transform: scale(2);
+            border-color: var(--primary-gold);
+        }
+
+        /* ===== BACKGROUND EFFECTS ===== */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-100px) translateX(50px); }
+            50% { transform: translateY(-200px) translateX(-30px); }
+            75% { transform: translateY(-100px) translateX(-80px); }
+        }
+
+        /* ===== NAVIGATION ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(226, 54, 54, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px var(--glow-red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-red);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .theme-toggle {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-blue));
+            border: none;
+            border-radius: 20px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--glow-red);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 50%, rgba(226, 54, 54, 0.1), transparent 70%),
+                        linear-gradient(180deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        .hero-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(4rem, 12vw, 10rem);
+            font-weight: 900;
+            letter-spacing: 10px;
+            background: linear-gradient(135deg, #ff0000, #ffd700, #ff0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 80px var(--glow-red);
+            animation: heroGlow 3s ease-in-out infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes heroGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px var(--glow-red)); }
+            50% { filter: drop-shadow(0 0 40px var(--glow-gold)); }
+        }
+
+        .hero-tagline {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-weight: 300;
+            letter-spacing: 4px;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease 0.5s both;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-blue));
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            animation: fadeInUp 1s ease 1s both;
+        }
+
+        .hero-cta::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .hero-cta:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .hero-cta:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== SECTION STYLING ===== */
+        section {
+            min-height: 100vh;
+            padding: 6rem 5%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(3rem, 8vw, 5rem);
+            text-align: center;
+            margin-bottom: 4rem;
+            letter-spacing: 5px;
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--primary-red), transparent);
+        }
+
+        /* ===== CHARACTER GRID ===== */
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .character-card {
+            position: relative;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: linear-gradient(135deg, rgba(226, 54, 54, 0.1), rgba(13, 122, 181, 0.1));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .character-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(226, 54, 54, 0.3));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 1;
+        }
+
+        .character-card:hover::before {
+            opacity: 1;
+        }
+
+        .character-card:hover {
+            transform: translateY(-20px) scale(1.05);
+            box-shadow: 0 30px 60px rgba(226, 54, 54, 0.4);
+        }
+
+        .character-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .character-card:hover .character-image {
+            transform: scale(1.1);
+        }
+
+        .character-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95), transparent);
+            transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 2;
+        }
+
+        .character-card:hover .character-info {
+            transform: translateY(0);
+        }
+
+        .character-name {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2rem;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            color: var(--primary-gold);
+            text-shadow: 0 0 10px var(--glow-gold);
+        }
+
+        .character-title {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .character-quote {
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--text-light);
+            opacity: 0.8;
+        }
+
+        /* ===== CHARACTER SPOTLIGHT ===== */
+        .spotlight {
+            background: linear-gradient(135deg, rgba(226, 54, 54, 0.05), rgba(13, 122, 181, 0.05));
+        }
+
+        .spotlight-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .spotlight-image {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(226, 54, 54, 0.3);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .spotlight-content h2 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .spotlight-content .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .spotlight-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .powers-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .power-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: rgba(226, 54, 54, 0.1);
+            border-left: 3px solid var(--primary-red);
+            border-radius: 5px;
+        }
+
+        .power-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--primary-gold);
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary-red), var(--primary-blue), var(--primary-gold));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: auto;
+            text-align: left;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-right: auto;
+            text-align: right;
+        }
+
+        .timeline-content {
+            width: 45%;
+            padding: 2rem;
+            background: rgba(226, 54, 54, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .timeline-date {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .timeline-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-desc {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: var(--primary-red);
+            border-radius: 50%;
+            border: 4px solid var(--bg-dark);
+            box-shadow: 0 0 20px var(--glow-red);
+        }
+
+        /* ===== POWER COMPARISON ===== */
+        .power-comparison {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-card {
+            padding: 2rem;
+            background: rgba(13, 122, 181, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .stat-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--primary-gold);
+        }
+
+        .stat-bar-container {
+            width: 100%;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .stat-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-red), var(--primary-gold));
+            border-radius: 10px;
+            transition: width 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 10px var(--glow-red);
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-red);
+        }
+
+        /* ===== GALLERY ===== */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            height: 300px;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.2);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+            transform: translateY(100%);
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+        }
+
+        /* ===== AVENGER CHOOSER ===== */
+        .chooser {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .chooser-btn {
+            display: inline-block;
+            padding: 1.5rem 4rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-blue));
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 3rem;
+            transition: all 0.3s ease;
+        }
+
+        .chooser-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px var(--glow-red);
+        }
+
+        .chosen-avenger {
+            padding: 3rem;
+            background: rgba(226, 54, 54, 0.1);
+            border-radius: 20px;
+            border: 2px solid var(--primary-red);
+            margin-top: 2rem;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .chosen-avenger.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .chosen-avenger h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 3rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            padding: 3rem 5%;
+            background: var(--bg-darker);
+            border-top: 1px solid rgba(226, 54, 54, 0.2);
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            body {
+                cursor: auto;
+            }
+
+            .custom-cursor {
+                display: none;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 4rem;
+            }
+
+            .spotlight-container {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-content {
+                width: calc(100% - 60px);
+                margin-left: 60px !important;
+                text-align: left !important;
+            }
+
+            .timeline-dot {
+                left: 20px;
+            }
+
+            .character-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== SCROLL ANIMATIONS ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== LOADING SCREEN ===== */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-darker);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-screen.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 6rem;
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor"></div>
+
+    <!-- Background Particles -->
+    <div class="bg-particles" id="particles"></div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading">
+        <div class="loading-logo">AVENGERS</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">AVENGERS</div>
+            <ul class="nav-links">
+                <li><a href="#heroes">Heroes</a></li>
+                <li><a href="#spotlight">Spotlight</a></li>
+                <li><a href="#timeline">Timeline</a></li>
+                <li><a href="#powers">Powers</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle">Ultra Dark</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">AVENGERS</h1>
+            <p class="hero-tagline">EARTH'S MIGHTIEST HEROES</p>
+            <button class="hero-cta" onclick="document.querySelector('#heroes').scrollIntoView({behavior: 'smooth'})">
+                ASSEMBLE
+            </button>
+        </div>
+    </section>
+
+    <!-- Characters Section -->
+    <section id="heroes">
+        <h2 class="section-title fade-in">THE HEROES</h2>
+        <div class="character-grid">
+            <!-- Iron Man -->
+            <a href="https://moviesanywhere.com/movie/iron-man"
+   target="_blank"
+   rel="noopener noreferrer"
+   class="character-link">
+
+    <div class="character-card fade-in" data-character="ironman">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600'%3E%3Crect fill='%23b91d1d' width='400' height='600'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='%23ffd700' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif' font-weight='bold'%3EIRON MAN%3C/text%3E%3C/svg%3E"
+             alt="Iron Man"
+             class="character-image">
+
+        <div class="character-info">
+            <h3 class="character-name">IRON MAN</h3>
+            <p class="character-title">Genius, Billionaire, Playboy, Philanthropist</p>
+            <p class="character-quote">"I am Iron Man."</p>
+        </div>
+    </div>
+
+</a>
+
+
+            <!-- Captain America -->
+            <div class="character-card fade-in" data-character="cap">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600'%3E%3Crect fill='%230d47a1' width='400' height='600'/%3E%3Ctext x='50%25' y='50%25' font-size='40' fill='%23ffffff' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif' font-weight='bold'%3ECAPTAIN%3C/text%3E%3Ctext x='50%25' y='60%25' font-size='40' fill='%23ffffff' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif' font-weight='bold'%3EAMERICA%3C/text%3E%3C/svg%3E" alt="Captain America" class="character-image">
+                <div class="character-info">
+                    <h3 class="character-name">CAPTAIN AMERICA</h3>
+                    <p class="character-title">The First Avenger</p>
+                    <p class="character-quote">"I can do this all day."</p>
+                </div>
+            </div>
+
+            <!-- Thor -->
+            <div class="character-card fade-in" data-character="thor">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600'%3E%3Crect fill='%232c3e50' width='400' height='600'/%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23ffd700' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif' font-weight='bold'%3ETHOR%3C/text%3E%3C/svg%3E" alt="Thor" class="character-image">
+                <div class="character-info">
+                    <h3 class="character-name">THOR</h3>
+                    <p class="character-title">God of Thunder</p>
+                    <p class="character-quote">"I am still worthy!"</p>
+                </div>
+            </div>
+
+            <!-- Hulk -->
+            <div class="character-card fade-in" data-character="hulk">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600'%3E%3Crect fill='%234CAF50' width='400' height='600'/%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23000000' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif' font-weight='bold'%3EHULK%3C/text%3E%3C/svg%3E" alt="Hulk" class="character-image">
+                <div class="character-info">
+                    <h3 class="character-name">HULK</h3>
+                    <p class="character-title">The Strongest Avenger</p>
+                    <p class="character-quote">"Hulk smash!"</p>
+                </div>
+            </div>
+
+            <!-- Black Widow -->
+            <div class="character-card fade-in" data-character="widow">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600'%3E%3Crect fill='%23000000' width='400' height='600'/%3E%3Ctext x='50%25' y='45%25' font-size='40' fill='%23ff0000' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif' font-weight='bold'%3EBLACK%3C/text%3E%3Ctext x='50%25' y='55%25' font-size='40' fill='%23ff0000' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif' font-weight='bold'%3EWIDOW%3C/text%3E%3C/svg%3E" alt="Black Widow" class="character-image">
+                <div class="character-info">
+                    <h3 class="character-name">BLACK WIDOW</h3>
+                    <p class="character-title">Master Spy & Assassin</p>
+                    <p class="character-quote">"I've got red in my ledger."</p>
+                </div>
+            </div>
+
+            <!-- Doctor Strange -->
+            <div class="character-card fade-in" data-character="strange">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600'%3E%3Crect fill='%23673AB7' width='400' height='600'/%3E%3Ctext x='50%25' y='45%25' font-size='36' fill='%2300ff00' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif' font-weight='bold'%3EDOCTOR%3C/text%3E%3Ctext x='50%25' y='55%25' font-size='36' fill='%2300ff00' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif' font-weight='bold'%3ESTRANGE%3C/text%3E%3C/svg%3E" alt="Doctor Strange" class="character-image">
+                <div class="character-info">
+                    <h3 class="character-name">DOCTOR STRANGE</h3>
+                    <p class="character-title">Sorcerer Supreme</p>
+                    <p class="character-quote">"We're in the endgame now."</p>
+                </div>
+            </div>
+
+            <!-- Spider-Man -->
+            <div class="character-card fade-in" data-character="spiderman">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600'%3E%3Crect fill='%23d32f2f' width='400' height='600'/%3E%3Ctext x='50%25' y='45%25' font-size='40' fill='%230d47a1' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif' font-weight='bold'%3ESPIDER%3C/text%3E%3Ctext x='50%25' y='55%25' font-size='40' fill='%230d47a1' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif' font-weight='bold'%3EMAN%3C/text%3E%3C/svg%3E" alt="Spider-Man" class="character-image">
+                <div class="character-info">
+                    <h3 class="character-name">SPIDER-MAN</h3>
+                    <p class="character-title">Friendly Neighborhood Hero</p>
+                    <p class="character-quote">"With great power comes great responsibility."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Spotlight Section -->
+    <section id="spotlight" class="spotlight">
+        <h2 class="section-title fade-in">CHARACTER SPOTLIGHT</h2>
+        <div class="spotlight-container fade-in">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='800'%3E%3Crect fill='%23b91d1d' width='600' height='800'/%3E%3Ctext x='50%25' y='45%25' font-size='72' fill='%23ffd700' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif' font-weight='bold'%3EIRON%3C/text%3E%3Ctext x='50%25' y='55%25' font-size='72' fill='%23ffd700' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif' font-weight='bold'%3EMAN%3C/text%3E%3C/svg%3E" alt="Iron Man" class="spotlight-image">
+            <div class="spotlight-content">
+                <h2>IRON MAN</h2>
+                <p class="subtitle">Tony Stark</p>
+                <p>Genius inventor and billionaire industrialist Tony Stark builds an armored suit to fight the throes of evil. After escaping captivity, he becomes the armored superhero known as Iron Man.</p>
+                <div class="powers-list">
+                    <div class="power-item">
+                        <svg class="power-icon" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <span>Genius-Level Intellect</span>
+                    </div>
+                    <div class="power-item">
+                        <svg class="power-icon" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <span>Powered Armor</span>
+                    </div>
+                    <div class="power-item">
+                        <svg class="power-icon" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <span>Flight</span>
+                    </div>
+                    <div class="power-item">
+                        <svg class="power-icon" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <span>Repulsor Beams</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="timeline">
+        <h2 class="section-title fade-in">AVENGERS INITIATIVE</h2>
+        <div class="timeline">
+            <div class="timeline-item fade-in">
+                <div class="timeline-content">
+                    <div class="timeline-date">2008</div>
+                    <h3 class="timeline-title">Iron Man Emerges</h3>
+                    <p class="timeline-desc">Tony Stark reveals himself as Iron Man, marking the beginning of the modern superhero era.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-content">
+                    <div class="timeline-date">2011</div>
+                    <h3 class="timeline-title">Captain America Returns</h3>
+                    <p class="timeline-desc">Steve Rogers awakens from the ice after 70 years, ready to fight for a new generation.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-content">
+                    <div class="timeline-date">2012</div>
+                    <h3 class="timeline-title">The Avengers Assemble</h3>
+                    <p class="timeline-desc">Earth's Mightiest Heroes unite for the first time to stop Loki's invasion of New York.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-content">
+                    <div class="timeline-date">2018</div>
+                    <h3 class="timeline-title">Infinity War</h3>
+                    <p class="timeline-desc">Thanos collects all Infinity Stones, wiping out half of all life in the universe.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-content">
+                    <div class="timeline-date">2019</div>
+                    <h3 class="timeline-title">Endgame</h3>
+                    <p class="timeline-desc">The Avengers execute a time heist to undo the snap and defeat Thanos once and for all.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Power Comparison Section -->
+    <section id="powers">
+        <h2 class="section-title fade-in">POWER LEVELS</h2>
+        <div class="power-comparison">
+            <div class="comparison-grid">
+                <div class="stat-card fade-in">
+                    <div class="stat-name">Strength</div>
+                    <div class="stat-bar-container">
+                        <div class="stat-bar" style="width: 0%" data-width="95%"></div>
+                    </div>
+                    <div class="stat-value">95</div>
+                </div>
+
+                <div class="stat-card fade-in">
+                    <div class="stat-name">Intelligence</div>
+                    <div class="stat-bar-container">
+                        <div class="stat-bar" style="width: 0%" data-width="100%"></div>
+                    </div>
+                    <div class="stat-value">100</div>
+                </div>
+
+                <div class="stat-card fade-in">
+                    <div class="stat-name">Speed</div>
+                    <div class="stat-bar-container">
+                        <div class="stat-bar" style="width: 0%" data-width="85%"></div>
+                    </div>
+                    <div class="stat-value">85</div>
+                </div>
+
+                <div class="stat-card fade-in">
+                    <div class="stat-name">Durability</div>
+                    <div class="stat-bar-container">
+                        <div class="stat-bar" style="width: 0%" data-width="90%"></div>
+                    </div>
+                    <div class="stat-value">90</div>
+                </div>
+
+                <div class="stat-card fade-in">
+                    <div class="stat-name">Energy</div>
+                    <div class="stat-bar-container">
+                        <div class="stat-bar" style="width: 0%" data-width="100%"></div>
+                    </div>
+                    <div class="stat-value">100</div>
+                </div>
+
+                <div class="stat-card fade-in">
+                    <div class="stat-name">Fighting Skills</div>
+                    <div class="stat-bar-container">
+                        <div class="stat-bar" style="width: 0%" data-width="80%"></div>
+                    </div>
+                    <div class="stat-value">80</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery">
+        <h2 class="section-title fade-in">ICONIC MOMENTS</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item fade-in">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23ff6b6b' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif' font-weight='bold'%3EBATTLE OF NY%3C/text%3E%3C/svg%3E" alt="Battle of New York">
+                <div class="gallery-overlay">
+                    <div class="gallery-title">Battle of New York</div>
+                </div>
+            </div>
+
+            <div class="gallery-item fade-in">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%234ecdc4' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif' font-weight='bold'%3EAGEOF ULTRON%3C/text%3E%3C/svg%3E" alt="Age of Ultron">
+                <div class="gallery-overlay">
+                    <div class="gallery-title">Age of Ultron</div>
+                </div>
+            </div>
+
+            <div class="gallery-item fade-in">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%2395e1d3' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif' font-weight='bold'%3ECIVIL WAR%3C/text%3E%3C/svg%3E" alt="Civil War">
+                <div class="gallery-overlay">
+                    <div class="gallery-title">Civil War</div>
+                </div>
+            </div>
+
+            <div class="gallery-item fade-in">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23f38181' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif' font-weight='bold'%3EINFINITY WAR%3C/text%3E%3C/svg%3E" alt="Infinity War">
+                <div class="gallery-overlay">
+                    <div class="gallery-title">Infinity War</div>
+                </div>
+            </div>
+
+            <div class="gallery-item fade-in">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23aa96da' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif' font-weight='bold'%3EENDGAME%3C/text%3E%3C/svg%3E" alt="Endgame">
+                <div class="gallery-overlay">
+                    <div class="gallery-title">Endgame</div>
+                </div>
+            </div>
+
+            <div class="gallery-item fade-in">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23fcbad3' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle' font-family='Arial, sans-serif' font-weight='bold'%3EAVENGERS%3C/text%3E%3C/svg%3E" alt="Avengers Assemble">
+                <div class="gallery-overlay">
+                    <div class="gallery-title">Avengers Assemble</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Avenger Chooser Section -->
+    <section>
+        <h2 class="section-title fade-in">FIND YOUR AVENGER</h2>
+        <div class="chooser fade-in">
+            <button class="chooser-btn" id="chooseBtn">CHOOSE YOUR AVENGER</button>
+            <div class="chosen-avenger" id="chosenAvenger">
+                <h3 id="chosenName"></h3>
+                <p id="chosenDesc"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 MARVEL STUDIOS. ALL RIGHTS RESERVED.</p>
+        <p>This is a fan-made showcase celebrating Earth's Mightiest Heroes.</p>
+    </footer>
+
+    <script>
+        // ===== CUSTOM CURSOR =====
+        const cursor = document.querySelector('.custom-cursor');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Cursor active state on clickable elements
+        document.querySelectorAll('a, button, .character-card, .gallery-item').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+        });
+
+        // ===== PARTICLES =====
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.width = Math.random() * 5 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // ===== LOADING SCREEN =====
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hide');
+            }, 1500);
+        });
+
+        // ===== SCROLL ANIMATIONS =====
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Animate stat bars
+                    if (entry.target.querySelector('.stat-bar')) {
+                        const bars = entry.target.querySelectorAll('.stat-bar');
+                        bars.forEach(bar => {
+                            bar.style.width = bar.dataset.width;
+                        });
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // ===== THEME TOGGLE =====
+        const themeToggle = document.getElementById('themeToggle');
+        let ultraDark = false;
+
+        themeToggle.addEventListener('click', () => {
+            ultraDark = !ultraDark;
+            document.body.style.background = ultraDark ? '#000000' : '';
+            themeToggle.textContent = ultraDark ? 'Light Mode' : 'Ultra Dark';
+        });
+
+        // ===== AVENGER CHOOSER =====
+        const avengers = [
+            { 
+                name: 'IRON MAN', 
+                desc: 'You\'re a genius innovator with a sharp wit. Technology is your superpower, and you always find creative solutions to impossible problems.' 
+            },
+            { 
+                name: 'CAPTAIN AMERICA', 
+                desc: 'You have unwavering moral compass and natural leadership. You inspire others with your courage and never give up on what\'s right.' 
+            },
+            { 
+                name: 'THOR', 
+                desc: 'You\'re noble and powerful, with a heart as big as your strength. You face challenges head-on and protect those you care about.' 
+            },
+            { 
+                name: 'HULK', 
+                desc: 'You have incredible strength when needed, but also a brilliant mind. You\'re learning to balance power with intelligence.' 
+            },
+            { 
+                name: 'BLACK WIDOW', 
+                desc: 'You\'re strategic, skilled, and always three steps ahead. Your past shapes you, but doesn\'t define you.' 
+            },
+            { 
+                name: 'DOCTOR STRANGE', 
+                desc: 'You\'re analytical and dedicated to mastering your craft. You understand that true power comes from knowledge and discipline.' 
+            },
+            { 
+                name: 'SPIDER-MAN', 
+                desc: 'You\'re young, energetic, and always trying to do the right thing. With great power comes great responsibility.' 
+            }
+        ];
+
+        document.getElementById('chooseBtn').addEventListener('click', () => {
+            const chosen = avengers[Math.floor(Math.random() * avengers.length)];
+            document.getElementById('chosenName').textContent = chosen.name;
+            document.getElementById('chosenDesc').textContent = chosen.desc;
+            document.getElementById('chosenAvenger').classList.add('show');
+        });
+
+        // ===== CHARACTER CARD TILT =====
+        document.querySelectorAll('.character-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-20px) scale(1.05)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+
+        // ===== SMOOTH SCROLL =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
