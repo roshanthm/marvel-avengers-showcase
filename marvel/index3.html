@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Experience the legendary Avengers - Earth's Mightiest Heroes in an immersive cinematic web experience">
+    <meta name="keywords" content="Avengers, Marvel, MCU, Iron Man, Captain America, Thor, Hulk, Black Widow, Doctor Strange, Spider-Man">
+    <title>AVENGERS - Earth's Mightiest Heroes | Cinematic Character Showcase</title>
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Teko:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #DC2626;
+            --primary-blue: #3B82F6;
+            --primary-gold: #FBBF24;
+            --bg-dark: #0a0a0a;
+            --bg-darker: #000000;
+            --text-light: #ffffff;
+            --text-gray: #9ca3af;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Canvas Background */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #000000, rgba(30, 64, 175, 0.1), #000000);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(4rem, 15vw, 12rem);
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            background: linear-gradient(to right, var(--primary-red), var(--primary-blue), var(--primary-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+            animation: logoGlow 3s ease-in-out infinite alternate;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes logoGlow {
+            from {
+                filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.3));
+            }
+            to {
+                filter: drop-shadow(0 0 40px rgba(239, 68, 68, 0.5));
+            }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 600;
+            color: #dbeafe;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .hero-description {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-gray);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.125rem;
+            letter-spacing: 0.1em;
+            color: white;
+            background: linear-gradient(to right, var(--primary-red), var(--primary-blue));
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.8);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to right, var(--primary-blue), var(--primary-red));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .cta-button:hover::before {
+            opacity: 1;
+        }
+
+        .cta-button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Characters Section */
+        .section {
+            position: relative;
+            padding: 5rem 2rem;
+            z-index: 1;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .section-subtitle {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            font-weight: 500;
+            text-align: center;
+            color: var(--text-gray);
+            margin-bottom: 4rem;
+        }
+
+        .characters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .character-card {
+            position: relative;
+            height: 500px;
+            border-radius: 1rem;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .character-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .character-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s ease;
+        }
+
+        .character-card:hover .character-image {
+            transform: scale(1.1);
+        }
+
+        .character-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.4), transparent);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .character-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .character-alias {
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+
+        .character-description {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Floating orbs */
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: var(--primary-blue);
+            top: 10%;
+            left: 10%;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            width: 600px;
+            height: 600px;
+            background: var(--primary-red);
+            bottom: 10%;
+            right: 10%;
+            animation: float 25s ease-in-out infinite reverse;
+        }
+
+        .orb-3 {
+            width: 600px;
+            height: 600px;
+            background: var(--primary-gold);
+            top: 50%;
+            left: 50%;
+            animation: float 30s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(100px, -50px) scale(1.2);
+            }
+            66% {
+                transform: translate(-100px, 50px) scale(0.9);
+            }
+        }
+
+        /* Footer */
+        .footer {
+            position: relative;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1;
+        }
+
+        .footer-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(to right, var(--primary-red), var(--primary-blue), var(--primary-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            color: var(--text-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-credits {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .characters-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(10px);
+            }
+        }
+
+        .scroll-arrow {
+            width: 2rem;
+            height: 2rem;
+            border: 2px solid var(--primary-blue);
+            border-top: none;
+            border-left: none;
+            transform: rotate(45deg);
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Canvas -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Floating Orbs -->
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-logo">AVENGERS</h1>
+            <p class="hero-subtitle">Earth's Mightiest Heroes</p>
+            <p class="hero-description">
+                Experience the legendary heroes who protect our world from threats too large for any one hero to face alone
+            </p>
+            <a href="#characters" class="cta-button">
+                <span>ENTER THE UNIVERSE</span>
+            </a>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- Characters Section -->
+    <section id="characters" class="section">
+        <h2 class="section-title">MEET THE HEROES</h2>
+        <p class="section-subtitle">Discover the legendary Avengers</p>
+        
+        <div class="characters-grid">
+            <!-- Iron Man 
+                <img src="https://images.unsplash.com/photo-1620075266917-2c5791f6737b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpcm9uJTIwbWFuJTIwcG9ydHJhaXQlMjBjaW5lbWF0aWN8ZW58MXx8fHwxNzY3OTMxNjA0fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Iron Man" class="character-image">
+               -->
+            <div class="character-card"> <div class="character-overlay">
+                    <h3 class="character-name">Iron Man</h3>
+                    <p class="character-alias">Tony Stark</p>
+                    <p class="character-description">
+                        Genius billionaire inventor who built a powered suit of armor to save his life and became the armored Avenger.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Captain America -->
+            <div class="character-card">
+                <img src="https://images.unsplash.com/photo-1559535332-db9971090158?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYXB0YWluJTIwYW1lcmljYSUyMGhlcm98ZW58MXx8fHwxNzY3OTMxNjA0fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Captain America" class="character-image">
+                <div class="character-overlay">
+                    <h3 class="character-name">Captain America</h3>
+                    <p class="character-alias">Steve Rogers</p>
+                    <p class="character-description">
+                        A frail young man enhanced to the peak of human perfection by an experimental serum. The First Avenger.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Thor -->
+            <div class="character-card">
+                <img src="https://images.unsplash.com/photo-1585074245728-eedb0cc44a66?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0aG9yJTIwbGlnaHRuaW5nJTIwbXl0aG9sb2d5fGVufDF8fHx8MTc2NzkzMTYwNXww&ixlib=rb-4.1.0&q=80&w=1080" alt="Thor" class="character-image">
+                <div class="character-overlay">
+                    <h3 class="character-name">Thor</h3>
+                    <p class="character-alias">Thor Odinson</p>
+                    <p class="character-description">
+                        The God of Thunder from Asgard, wielder of the mighty hammer Mjolnir.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Hulk -->
+            <div class="character-card">
+                <img src="https://images.unsplash.com/photo-1662134631739-e4c9d3d14b8d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxodWxrJTIwZ3JlZW4lMjBwb3dlcnxlbnwxfHx8fDE3Njc5Mjk3MzB8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Hulk" class="character-image">
+                <div class="character-overlay">
+                    <h3 class="character-name">Hulk</h3>
+                    <p class="character-alias">Bruce Banner</p>
+                    <p class="character-description">
+                        A brilliant scientist exposed to gamma radiation who transforms into a powerful green giant.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Black Widow -->
+            <div class="character-card">
+                <img src="https://images.unsplash.com/photo-1681549897627-e287d6e022d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxibGFjayUyMHdpZG93JTIwc3B5fGVufDF8fHx8MTc2NzkyOTY4OHww&ixlib=rb-4.1.0&q=80&w=1080" alt="Black Widow" class="character-image">
+                <div class="character-overlay">
+                    <h3 class="character-name">Black Widow</h3>
+                    <p class="character-alias">Natasha Romanoff</p>
+                    <p class="character-description">
+                        A master spy and assassin trained in the Red Room who chose to protect the world.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Doctor Strange -->
+            <div class="character-card">
+                <img src="https://images.unsplash.com/photo-1642975967602-653d378f3b5b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkb2N0b3IlMjBzdHJhbmdlJTIwbWFnaWN8ZW58MXx8fHwxNzY3ODcwOTYyfDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Doctor Strange" class="character-image">
+                <div class="character-overlay">
+                    <h3 class="character-name">Doctor Strange</h3>
+                    <p class="character-alias">Stephen Strange</p>
+                    <p class="character-description">
+                        Once a brilliant surgeon, became the Sorcerer Supreme and master of the mystic arts.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Spider-Man -->
+            <div class="character-card">
+                <img src="https://images.unsplash.com/photo-1760954185931-40d5b65fbb86?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzcGlkZXJtYW4lMjB3ZWIlMjBzdXBlcmhlcm98ZW58MXx8fHwxNzY3OTMxNjA2fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Spider-Man" class="character-image">
+                <div class="character-overlay">
+                    <h3 class="character-name">Spider-Man</h3>
+                    <p class="character-alias">Peter Parker</p>
+                    <p class="character-description">
+                        A brilliant high school student bitten by a radioactive spider. With great power comes great responsibility.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <h3 class="footer-logo">AVENGERS</h3>
+        <p class="footer-text">Earth's Mightiest Heroes - Protecting the world since 2008</p>
+        <p class="footer-credits">This is a fan-made tribute to the Marvel Cinematic Universe</p>
+        <p class="footer-credits" style="margin-top: 1rem;">© 2026 Marvel Studios | All Rights Reserved</p>
+    </footer>
+
+    <!-- Particle Animation Script -->
+    <script>
+        // Particle animation
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2 + 0.5;
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(100, 200, 255, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const particleCount = Math.floor((canvas.width * canvas.height) / 15000);
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        initParticles();
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Card hover effect
+        document.querySelectorAll('.character-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -5;
+                const rotateY = ((x - centerX) / centerX) * 5;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
