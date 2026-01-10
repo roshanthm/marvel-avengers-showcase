@@ -3,1402 +3,1305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avengers | Cinematic Character Showcase</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>AVENGERS - Earth's Mightiest Heroes</title>
+    <meta name="description" content="Official Avengers Character Showcase - Explore Earth's Mightiest Heroes">
+    
     <style>
-        :root {
-            --primary-dark: #0a0a14;
-            --secondary-dark: #1a1a2e;
-            --accent-red: #e62429;
-            --accent-blue: #3a86ff;
-            --accent-gold: #ffd700;
-            --accent-purple: #8338ec;
-            --accent-green: #06d6a0;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --shadow-glow: 0 0 20px rgba(230, 36, 41, 0.3);
-            --transition-smooth: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            --transition-cinematic: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
+        /* ===== FONTS & RESET ===== */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Bebas+Neue&display=swap');
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
-        html {
-            scroll-behavior: smooth;
+
+        :root {
+            --primary-red: #e23636;
+            --primary-blue: #0d7ab5;
+            --primary-gold: #ffd700;
+            --bg-dark: #0a0a0f;
+            --bg-darker: #050508;
+            --text-light: #f0f0f0;
+            --text-muted: #a0a0a0;
+            --glow-red: rgba(226, 54, 54, 0.5);
+            --glow-blue: rgba(13, 122, 181, 0.5);
+            --glow-gold: rgba(255, 215, 0, 0.5);
         }
-        
+
         body {
-            font-family: 'Roboto Condensed', sans-serif;
-            background-color: var(--primary-dark);
-            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-darker);
+            color: var(--text-light);
             overflow-x: hidden;
-            line-height: 1.6;
+            cursor: none;
         }
-        
-        h1, h2, h3, h4, h5 {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-        
-        /* Particle Background */
-        #particles-js {
+
+        /* ===== CUSTOM CURSOR ===== */
+        .custom-cursor {
             position: fixed;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary-red);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.2s ease, border-color 0.3s ease;
+            mix-blend-mode: difference;
+        }
+
+        .custom-cursor.active {
+            transform: scale(2);
+            border-color: var(--primary-gold);
+        }
+
+        /* ===== BACKGROUND EFFECTS ===== */
+        .bg-particles {
+            position: fixed;
             top: 0;
             left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
         }
-        
-        /* Header & Navigation */
-        header {
+
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-100px) translateX(50px); }
+            50% { transform: translateY(-200px) translateX(-30px); }
+            75% { transform: translateY(-100px) translateX(-80px); }
+        }
+
+        /* ===== NAVIGATION ===== */
+        nav {
             position: fixed;
             top: 0;
             width: 100%;
-            z-index: 1000;
-            padding: 1.5rem 3rem;
-            background: rgba(10, 10, 20, 0.85);
+            padding: 1.5rem 5%;
+            background: rgba(10, 10, 15, 0.8);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(226, 54, 54, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: var(--transition-smooth);
         }
-        
+
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .logo-img {
-            height: 50px;
-            filter: drop-shadow(0 0 10px var(--accent-red));
-            animation: pulse 3s infinite alternate;
-        }
-        
-        .logo-text {
-            font-size: 1.8rem;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2rem;
             font-weight: 900;
-            background: linear-gradient(90deg, var(--accent-red), var(--accent-gold));
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-gold));
             -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 15px rgba(230, 36, 41, 0.5);
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px var(--glow-red);
         }
-        
-        nav ul {
+
+        .nav-links {
             display: flex;
-            list-style: none;
             gap: 2rem;
+            list-style: none;
         }
-        
-        nav a {
-            color: #fff;
+
+        .nav-links a {
+            color: var(--text-light);
             text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
             letter-spacing: 1px;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: var(--transition-smooth);
+            transition: all 0.3s ease;
             position: relative;
         }
-        
-        nav a:hover {
-            color: var(--accent-red);
-            text-shadow: 0 0 10px var(--accent-red);
-        }
-        
-        nav a::after {
+
+        .nav-links a::after {
             content: '';
             position: absolute;
-            bottom: 0;
+            bottom: -5px;
             left: 0;
             width: 0;
             height: 2px;
-            background: var(--accent-red);
+            background: var(--primary-red);
             transition: width 0.3s ease;
         }
-        
-        nav a:hover::after {
+
+        .nav-links a:hover::after {
             width: 100%;
         }
-        
+
         .theme-toggle {
-            background: transparent;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-blue));
             border: none;
+            border-radius: 20px;
             color: white;
-            font-size: 1.3rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: var(--transition-smooth);
-            padding: 0.5rem;
-            border-radius: 50%;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        
+
         .theme-toggle:hover {
-            background: var(--glass-bg);
-            color: var(--accent-gold);
-            transform: rotate(30deg);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--glow-red);
         }
-        
-        /* Hero Section */
+
+        /* ===== HERO SECTION ===== */
         .hero {
             height: 100vh;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 0 2rem;
+            justify-content: center;
             position: relative;
             overflow: hidden;
+            background: radial-gradient(circle at 50% 50%, rgba(226, 54, 54, 0.1), transparent 70%),
+                        linear-gradient(180deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
         }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, rgba(58, 134, 255, 0.1) 0%, rgba(10, 10, 20, 0) 70%);
-            z-index: -1;
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            position: relative;
         }
-        
+
         .hero-title {
-            font-size: 5rem;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeUp 1s forwards 0.5s;
-        }
-        
-        .hero-title span {
-            display: block;
-            background: linear-gradient(90deg, var(--accent-red), var(--accent-blue), var(--accent-gold));
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(4rem, 12vw, 10rem);
+            font-weight: 900;
+            letter-spacing: 10px;
+            background: linear-gradient(135deg, #ff0000, #ffd700, #ff0000);
             -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 80px var(--glow-red);
+            animation: heroGlow 3s ease-in-out infinite;
+            margin-bottom: 1rem;
         }
-        
+
+        @keyframes heroGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px var(--glow-red)); }
+            50% { filter: drop-shadow(0 0 40px var(--glow-gold)); }
+        }
+
         .hero-tagline {
-            font-size: 1.8rem;
-            margin-bottom: 2rem;
-            max-width: 800px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeUp 1s forwards 0.8s;
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-weight: 300;
+            letter-spacing: 4px;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease 0.5s both;
         }
-        
+
         .hero-cta {
-            padding: 1rem 2.5rem;
-            background: linear-gradient(90deg, var(--accent-red), #b91d1d);
-            color: white;
+            display: inline-block;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-blue));
             border: none;
             border-radius: 50px;
-            font-size: 1.3rem;
-            font-weight: 700;
-            letter-spacing: 1px;
+            color: white;
             cursor: pointer;
-            transition: var(--transition-smooth);
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeUp 1s forwards 1.1s;
-            box-shadow: var(--shadow-glow);
             position: relative;
             overflow: hidden;
+            transition: transform 0.3s ease;
+            animation: fadeInUp 1s ease 1s both;
         }
-        
-        .hero-cta:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(230, 36, 41, 0.4);
-            letter-spacing: 2px;
-        }
-        
-        .hero-cta::after {
+
+        .hero-cta::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-        }
-        
-        .hero-cta:hover::after {
-            left: 100%;
-        }
-        
-        .scroll-hint {
-            position: absolute;
-            bottom: 2rem;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
-            color: #aaa;
-            font-size: 1rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            opacity: 0;
-            animation: fadeIn 1s forwards 1.5s;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
         }
-        
-        .scroll-hint i {
-            margin-top: 0.5rem;
-            font-size: 1.5rem;
-            animation: bounce 2s infinite;
+
+        .hero-cta:hover::before {
+            width: 300px;
+            height: 300px;
         }
-        
-        /* Character Grid Section */
+
+        .hero-cta:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== SECTION STYLING ===== */
+        section {
+            min-height: 100vh;
+            padding: 6rem 5%;
+            position: relative;
+            z-index: 10;
+        }
+
         .section-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(3rem, 8vw, 5rem);
             text-align: center;
-            font-size: 3.5rem;
-            margin: 5rem 0 3rem;
+            margin-bottom: 4rem;
+            letter-spacing: 5px;
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             position: relative;
         }
-        
+
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: -15px;
+            bottom: -20px;
             left: 50%;
             transform: translateX(-50%);
-            width: 150px;
+            width: 100px;
             height: 4px;
-            background: linear-gradient(90deg, transparent, var(--accent-red), transparent);
+            background: linear-gradient(90deg, transparent, var(--primary-red), transparent);
         }
-        
+
+        /* ===== CHARACTER GRID ===== */
         .character-grid {
-            max-width: 1400px;
-            margin: 0 auto 8rem;
-            padding: 0 2rem;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
         }
-        
+
         .character-card {
-            background: var(--glass-bg);
-            border-radius: 15px;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            transition: var(--transition-cinematic);
             position: relative;
-            height: 450px;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
             cursor: pointer;
-            transform-style: preserve-3d;
-            perspective: 1000px;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: linear-gradient(135deg, rgba(226, 54, 54, 0.1), rgba(13, 122, 181, 0.1));
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
-        .character-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), var(--shadow-glow);
-        }
-        
-        .character-image {
-            height: 65%;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .character-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition-cinematic);
-        }
-        
-        .character-card:hover .character-image img {
-            transform: scale(1.1);
-        }
-        
-        .character-overlay {
+
+        .character-card::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.9) 90%);
+            background: linear-gradient(135deg, transparent, rgba(226, 54, 54, 0.3));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 1;
         }
-        
-        .character-name {
-            position: absolute;
-            bottom: 60px;
-            left: 0;
-            width: 100%;
-            padding: 0 1.5rem;
-            font-size: 2rem;
-            font-weight: 900;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
-            transition: var(--transition-smooth);
+
+        .character-card:hover::before {
+            opacity: 1;
         }
-        
-        .character-card:hover .character-name {
-            transform: translateY(-5px);
-            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.9);
+
+        .character-card:hover {
+            transform: translateY(-20px) scale(1.05);
+            box-shadow: 0 30px 60px rgba(226, 54, 54, 0.4);
         }
-        
-        .character-info {
-            padding: 1.5rem;
-            height: 35%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        
-        .character-quote {
-            font-style: italic;
-            color: #ccc;
-            margin-bottom: 1rem;
-            font-size: 0.95rem;
-            line-height: 1.4;
-        }
-        
-        .character-abilities {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-        
-        .ability-icon {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            transition: var(--transition-smooth);
-        }
-        
-        .character-card:hover .ability-icon {
-            transform: scale(1.1);
-            background: var(--accent-red);
-        }
-        
-        /* Character Spotlight */
-        .spotlight-container {
-            max-width: 1200px;
-            margin: 0 auto 8rem;
-            padding: 0 2rem;
-            display: none;
-        }
-        
-        .spotlight-active {
-            display: block;
-        }
-        
-        .spotlight-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-        
-        .back-to-grid {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-        
-        .back-to-grid:hover {
-            background: var(--accent-red);
-            transform: translateX(-5px);
-        }
-        
-        .spotlight-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            background: var(--glass-bg);
-            border-radius: 20px;
-            overflow: hidden;
-            padding: 2.5rem;
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(10px);
-        }
-        
-        .spotlight-image {
-            border-radius: 15px;
-            overflow: hidden;
-            height: 500px;
-        }
-        
-        .spotlight-image img {
+
+        .character-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 8s ease;
+            transition: transform 0.5s ease;
         }
-        
-        .spotlight-image:hover img {
-            transform: scale(1.05);
+
+        .character-card:hover .character-image {
+            transform: scale(1.1);
         }
-        
-        .spotlight-details h2 {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(90deg, var(--accent-red), var(--accent-gold));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+
+        .character-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95), transparent);
+            transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 2;
         }
-        
-        .spotlight-details h3 {
-            font-size: 1.5rem;
-            color: var(--accent-blue);
+
+        .character-card:hover .character-info {
+            transform: translateY(0);
+        }
+
+        .character-name {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2rem;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            color: var(--primary-gold);
+            text-shadow: 0 0 10px var(--glow-gold);
+        }
+
+        .character-title {
+            font-size: 1rem;
+            color: var(--text-muted);
             margin-bottom: 1rem;
-            border-left: 4px solid var(--accent-blue);
-            padding-left: 1rem;
+            font-weight: 300;
         }
-        
-        .bio-text {
+
+        .character-quote {
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--text-light);
+            opacity: 0.8;
+        }
+
+        /* ===== CHARACTER SPOTLIGHT ===== */
+        .spotlight {
+            background: linear-gradient(135deg, rgba(226, 54, 54, 0.05), rgba(13, 122, 181, 0.05));
+        }
+
+        .spotlight-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .spotlight-image {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(226, 54, 54, 0.3);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .spotlight-content h2 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .spotlight-content .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
             margin-bottom: 2rem;
-            line-height: 1.7;
-            color: #ddd;
+            font-weight: 300;
         }
-        
-        .powers-grid {
+
+        .spotlight-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .powers-list {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
             margin-bottom: 2rem;
         }
-        
+
         .power-item {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 1rem;
-            border-radius: 8px;
-            border-left: 3px solid var(--accent-gold);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: rgba(226, 54, 54, 0.1);
+            border-left: 3px solid var(--primary-red);
+            border-radius: 5px;
         }
-        
-        .power-item h4 {
-            color: var(--accent-gold);
-            margin-bottom: 0.5rem;
+
+        .power-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--primary-gold);
         }
-        
-        .quote-container {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 1.5rem;
-            border-radius: 10px;
-            border-left: 5px solid var(--accent-red);
-            font-style: italic;
-            font-size: 1.2rem;
-            position: relative;
-        }
-        
-        .quote-container i {
-            color: var(--accent-red);
-            font-size: 1.5rem;
-            position: absolute;
-            top: 10px;
-            left: 10px;
-        }
-        
-        /* Avengers Initiative Section */
-        .timeline-section {
-            max-width: 1200px;
-            margin: 0 auto 8rem;
-            padding: 0 2rem;
-        }
-        
+
+        /* ===== TIMELINE ===== */
         .timeline {
+            max-width: 1000px;
+            margin: 0 auto;
             position: relative;
-            padding: 2rem 0;
         }
-        
+
         .timeline::before {
             content: '';
             position: absolute;
             left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary-red), var(--primary-blue), var(--primary-gold));
             transform: translateX(-50%);
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--accent-blue), var(--accent-red));
-            border-radius: 10px;
         }
-        
+
         .timeline-item {
-            width: 50%;
-            padding: 1.5rem 2.5rem;
+            margin-bottom: 4rem;
             position: relative;
-            margin-bottom: 3rem;
         }
-        
-        .timeline-item:nth-child(odd) {
-            left: 0;
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: auto;
+            text-align: left;
         }
-        
-        .timeline-item:nth-child(even) {
-            left: 50%;
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-right: auto;
+            text-align: right;
         }
-        
+
+        .timeline-content {
+            width: 45%;
+            padding: 2rem;
+            background: rgba(226, 54, 54, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .timeline-date {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .timeline-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-desc {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
         .timeline-dot {
             position: absolute;
-            top: 2rem;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
             width: 20px;
             height: 20px;
+            background: var(--primary-red);
             border-radius: 50%;
-            background: var(--accent-gold);
-            box-shadow: 0 0 15px var(--accent-gold);
+            border: 4px solid var(--bg-dark);
+            box-shadow: 0 0 20px var(--glow-red);
         }
-        
-        .timeline-item:nth-child(odd) .timeline-dot {
-            right: -10px;
+
+        /* ===== POWER COMPARISON ===== */
+        .power-comparison {
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        
-        .timeline-item:nth-child(even) .timeline-dot {
-            left: -10px;
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
         }
-        
-        .timeline-content {
-            background: var(--glass-bg);
+
+        .stat-card {
+            padding: 2rem;
+            background: rgba(13, 122, 181, 0.1);
             border-radius: 15px;
-            padding: 1.5rem;
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(5px);
-            transition: var(--transition-smooth);
-        }
-        
-        .timeline-content:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-        }
-        
-        .timeline-year {
-            font-size: 1.5rem;
-            color: var(--accent-red);
-            margin-bottom: 0.5rem;
-            font-weight: 900;
-        }
-        
-        /* Choose Your Avenger Section */
-        .recommendation-section {
-            max-width: 1000px;
-            margin: 0 auto 8rem;
-            padding: 0 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
         }
-        
-        .recommendation-box {
-            background: var(--glass-bg);
-            border-radius: 20px;
-            padding: 3rem;
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(10px);
-            margin-top: 2rem;
-        }
-        
-        .personality-options {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        
-        .personality-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--glass-border);
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            font-weight: 700;
-        }
-        
-        .personality-btn:hover, .personality-btn.active {
-            background: var(--accent-blue);
-            transform: translateY(-3px);
-        }
-        
-        .recommend-btn {
-            background: linear-gradient(90deg, var(--accent-red), #b91d1d);
-            color: white;
-            border: none;
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
+
+        .stat-name {
             font-size: 1.2rem;
             font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow-glow);
+            margin-bottom: 1.5rem;
+            color: var(--primary-gold);
         }
-        
-        .recommend-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(230, 36, 41, 0.4);
-        }
-        
-        .recommendation-result {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 15px;
-            padding: 2rem;
-            display: none;
-            animation: fadeIn 0.8s ease;
-        }
-        
-        .result-avatar {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
+
+        .stat-bar-container {
+            width: 100%;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
             overflow: hidden;
-            margin: 0 auto 1.5rem;
-            border: 3px solid var(--accent-gold);
-            box-shadow: 0 0 25px var(--accent-gold);
+            margin-bottom: 1rem;
+            position: relative;
         }
-        
-        .result-avatar img {
+
+        .stat-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-red), var(--primary-gold));
+            border-radius: 10px;
+            transition: width 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 10px var(--glow-red);
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-red);
+        }
+
+        /* ===== GALLERY ===== */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            height: 300px;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.5s ease;
         }
-        
-        /* Footer */
-        footer {
-            background: rgba(0, 0, 0, 0.8);
-            padding: 3rem 2rem;
-            text-align: center;
-            border-top: 1px solid var(--glass-border);
+
+        .gallery-item:hover img {
+            transform: scale(1.2);
         }
-        
-        .footer-logo {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, var(--accent-red), var(--accent-gold));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+            transform: translateY(100%);
+            transition: transform 0.5s ease;
         }
-        
-        .footer-text {
-            color: #aaa;
-            max-width: 600px;
-            margin: 0 auto 2rem;
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
         }
-        
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .social-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
+
+        .gallery-title {
             font-size: 1.2rem;
-            transition: var(--transition-smooth);
+            font-weight: 700;
+            color: var(--primary-gold);
         }
-        
-        .social-icon:hover {
-            background: var(--accent-red);
-            transform: translateY(-5px) rotate(10deg);
+
+        /* ===== AVENGER CHOOSER ===== */
+        .chooser {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
         }
-        
-        .copyright {
-            color: #777;
+
+        .chooser-btn {
+            display: inline-block;
+            padding: 1.5rem 4rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-blue));
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 3rem;
+            transition: all 0.3s ease;
+        }
+
+        .chooser-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px var(--glow-red);
+        }
+
+        .chosen-avenger {
+            padding: 3rem;
+            background: rgba(226, 54, 54, 0.1);
+            border-radius: 20px;
+            border: 2px solid var(--primary-red);
+            margin-top: 2rem;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .chosen-avenger.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .chosen-avenger h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 3rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            padding: 3rem 5%;
+            background: var(--bg-darker);
+            border-top: 1px solid rgba(226, 54, 54, 0.2);
+        }
+
+        footer p {
+            color: var(--text-muted);
             font-size: 0.9rem;
         }
-        
-        /* Animations */
-        @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            body {
+                cursor: auto;
             }
-        }
-        
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
+
+            .custom-cursor {
+                display: none;
             }
-        }
-        
-        @keyframes pulse {
-            0% {
-                filter: drop-shadow(0 0 10px rgba(230, 36, 41, 0.5));
+
+            .nav-links {
+                display: none;
             }
-            100% {
-                filter: drop-shadow(0 0 20px rgba(230, 36, 41, 0.8));
-            }
-        }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-10px);
-            }
-            60% {
-                transform: translateY(-5px);
-            }
-        }
-        
-        @keyframes glow {
-            0%, 100% {
-                box-shadow: 0 0 10px var(--accent-blue);
-            }
-            50% {
-                box-shadow: 0 0 25px var(--accent-blue);
-            }
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 1024px) {
+
             .hero-title {
                 font-size: 4rem;
             }
-            
-            .character-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            }
-            
-            .spotlight-content {
+
+            .spotlight-container {
                 grid-template-columns: 1fr;
             }
-            
-            .spotlight-image {
-                height: 400px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            header {
-                padding: 1rem 1.5rem;
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            nav ul {
-                gap: 1rem;
-            }
-            
-            .hero-title {
-                font-size: 3rem;
-            }
-            
-            .hero-tagline {
-                font-size: 1.4rem;
-            }
-            
-            .section-title {
-                font-size: 2.8rem;
-            }
-            
-            .character-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 1.5rem;
-            }
-            
+
             .timeline::before {
-                left: 30px;
-            }
-            
-            .timeline-item {
-                width: 100%;
-                left: 0 !important;
-                padding-left: 70px;
-            }
-            
-            .timeline-item:nth-child(even) .timeline-dot {
                 left: 20px;
             }
-            
-            .timeline-item:nth-child(odd) .timeline-dot {
-                right: auto;
+
+            .timeline-content {
+                width: calc(100% - 60px);
+                margin-left: 60px !important;
+                text-align: left !important;
+            }
+
+            .timeline-dot {
                 left: 20px;
             }
-        }
-        
-        @media (max-width: 576px) {
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            
-            .hero-tagline {
-                font-size: 1.2rem;
-            }
-            
+
             .character-grid {
                 grid-template-columns: 1fr;
             }
-            
-            .powers-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .personality-options {
-                flex-direction: column;
-                align-items: center;
-            }
         }
-        
-        /* Theme Toggle Classes */
-        .ultra-dark {
-            --primary-dark: #05050a;
-            --secondary-dark: #101020;
-            --glass-bg: rgba(0, 0, 0, 0.3);
-        }
-        
-        /* Utility Classes */
-        .hidden {
-            display: none !important;
-        }
-        
+
+        /* ===== SCROLL ANIMATIONS ===== */
         .fade-in {
-            animation: fadeIn 0.8s ease forwards;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
         }
-        
-        /* Tilt Effect */
-        .tilt-effect {
-            transition: transform 0.2s ease-out;
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== LOADING SCREEN ===== */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-darker);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-screen.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 6rem;
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
         }
     </style>
 </head>
 <body>
-    <!-- Particle Background -->
-    <div id="particles-js"></div>
-    
-    <!-- Header -->
-    <header>
-        <div class="logo">
-            <img src="https://i.ibb.co/5xY7Xx1/avengers-logo.png" alt="Avengers Logo" class="logo-img">
-            <div class="logo-text">AVENGERS</div>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#characters">Characters</a></li>
-                <li><a href="#timeline">Timeline</a></li>
-                <li><a href="#recommendation">Choose Avenger</a></li>
-            </ul>
-        </nav>
-        <button class="theme-toggle" id="themeToggle" title="Toggle Ultra Dark Mode">
-            <i class="fas fa-moon"></i>
-        </button>
-    </header>
-    
-    <!-- Hero Section -->
-    <section class="hero" id="hero">
-        <h1 class="hero-title"><span>AVENGERS</span><span>CHARACTER SHOWCASE</span></h1>
-        <p class="hero-tagline">Enter the Marvel Cinematic Universe. Explore the heroes who protect our world from threats no single hero could withstand.</p>
-        <button class="hero-cta" id="exploreBtn">EXPLORE THE TEAM</button>
-        <div class="scroll-hint">
-            Scroll to discover
-            <i class="fas fa-chevron-down"></i>
-        </div>
-    </section>
-    
-    <!-- Character Grid Section -->
-    <section id="characters">
-        <h2 class="section-title">THE AVENGERS INITIATIVE</h2>
-        <div class="character-grid" id="characterGrid">
-            <!-- Character cards will be generated by JavaScript -->
-        </div>
-    </section>
-    
-    <!-- Character Spotlight Section -->
-    <div id="spotlightContainer" class="spotlight-container">
-        <div class="spotlight-header">
-            <button class="back-to-grid" id="backToGrid">
-                <i class="fas fa-arrow-left"></i> Back to All Heroes
-            </button>
-            <h2 class="section-title">CHARACTER SPOTLIGHT</h2>
-        </div>
-        <div class="spotlight-content" id="spotlightContent">
-            <!-- Spotlight content will be populated by JavaScript -->
-        </div>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor"></div>
+
+    <!-- Background Particles -->
+    <div class="bg-particles" id="particles"></div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading">
+        <div class="loading-logo">AVENGERS</div>
     </div>
-    
-    <!-- Avengers Timeline Section -->
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">AVENGERS</div>
+            <ul class="nav-links">
+                <li><a href="#heroes">Heroes</a></li>
+                <li><a href="#spotlight">Spotlight</a></li>
+                <li><a href="#timeline">Timeline</a></li>
+                <li><a href="#powers">Powers</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle">Ultra Dark</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">AVENGERS</h1>
+            <p class="hero-tagline">EARTH'S MIGHTIEST HEROES</p>
+            <button class="hero-cta" onclick="document.querySelector('#heroes').scrollIntoView({behavior: 'smooth'})">
+                ASSEMBLE
+            </button>
+        </div>
+    </section>
+
+    <!-- Characters Section -->
+    <section id="heroes">
+        <h2 class="section-title fade-in">THE HEROES</h2>
+        <div class="character-grid">
+            <!-- Iron Man -->
+            <div class="character-card fade-in" data-character="ironman">
+                <img src="https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                     alt="Iron Man"
+                     class="character-image">
+                <div class="character-info">
+                    <h3 class="character-name">IRON MAN</h3>
+                    <p class="character-title">Genius, Billionaire, Playboy, Philanthropist</p>
+                    <p class="character-quote">"I am Iron Man."</p>
+                </div>
+            </div>
+
+            <!-- Captain America -->
+            <div class="character-card fade-in" data-character="cap">
+                <img src="https://images.unsplash.com/photo-1620336655055-bd87c5d1d73f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                     alt="Captain America" 
+                     class="character-image">
+                <div class="character-info">
+                    <h3 class="character-name">CAPTAIN AMERICA</h3>
+                    <p class="character-title">The First Avenger</p>
+                    <p class="character-quote">"I can do this all day."</p>
+                </div>
+            </div>
+
+            <!-- Thor -->
+            <div class="character-card fade-in" data-character="thor">
+                <img src="https://images.unsplash.com/photo-1637599101096-89dc2e1e7cec?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                     alt="Thor" 
+                     class="character-image">
+                <div class="character-info">
+                    <h3 class="character-name">THOR</h3>
+                    <p class="character-title">God of Thunder</p>
+                    <p class="character-quote">"I am still worthy!"</p>
+                </div>
+            </div>
+
+            <!-- Hulk -->
+            <div class="character-card fade-in" data-character="hulk">
+                <img src="https://images.unsplash.com/photo-1637347114849-1d5c4c0b4e4c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                     alt="Hulk" 
+                     class="character-image">
+                <div class="character-info">
+                    <h3 class="character-name">HULK</h3>
+                    <p class="character-title">The Strongest Avenger</p>
+                    <p class="character-quote">"Hulk smash!"</p>
+                </div>
+            </div>
+
+            <!-- Black Widow -->
+            <div class="character-card fade-in" data-character="widow">
+                <img src="https://images.unsplash.com/photo-1637347114855-f0477af5562f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                     alt="Black Widow" 
+                     class="character-image">
+                <div class="character-info">
+                    <h3 class="character-name">BLACK WIDOW</h3>
+                    <p class="character-title">Master Spy & Assassin</p>
+                    <p class="character-quote">"I've got red in my ledger."</p>
+                </div>
+            </div>
+
+            <!-- Doctor Strange -->
+            <div class="character-card fade-in" data-character="strange">
+                <img src="https://images.unsplash.com/photo-1636449349663-dc5dcdc882a9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                     alt="Doctor Strange" 
+                     class="character-image">
+                <div class="character-info">
+                    <h3 class="character-name">DOCTOR STRANGE</h3>
+                    <p class="character-title">Sorcerer Supreme</p>
+                    <p class="character-quote">"We're in the endgame now."</p>
+                </div>
+            </div>
+
+            <!-- Spider-Man -->
+            <div class="character-card fade-in" data-character="spiderman">
+                <img src="https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                     alt="Spider-Man" 
+                     class="character-image">
+                <div class="character-info">
+                    <h3 class="character-name">SPIDER-MAN</h3>
+                    <p class="character-title">Friendly Neighborhood Hero</p>
+                    <p class="character-quote">"With great power comes great responsibility."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Spotlight Section -->
+    <section id="spotlight" class="spotlight">
+        <h2 class="section-title fade-in">CHARACTER SPOTLIGHT</h2>
+        <div class="spotlight-container fade-in">
+            <img src="https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" 
+                 alt="Iron Man" 
+                 class="spotlight-image">
+            <div class="spotlight-content">
+                <h2>IRON MAN</h2>
+                <p class="subtitle">Tony Stark</p>
+                <p>Genius inventor and billionaire industrialist Tony Stark builds an armored suit to fight the throes of evil. After escaping captivity, he becomes the armored superhero known as Iron Man.</p>
+                <div class="powers-list">
+                    <div class="power-item">
+                        <svg class="power-icon" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <span>Genius-Level Intellect</span>
+                    </div>
+                    <div class="power-item">
+                        <svg class="power-icon" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <span>Powered Armor</span>
+                    </div>
+                    <div class="power-item">
+                        <svg class="power-icon" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <span>Flight</span>
+                    </div>
+                    <div class="power-item">
+                        <svg class="power-icon" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <span>Repulsor Beams</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
     <section id="timeline">
-        <h2 class="section-title">AVENGERS INITIATIVE TIMELINE</h2>
-        <div class="timeline-section">
-            <div class="timeline">
-                <!-- Timeline items will be generated by JavaScript -->
+        <h2 class="section-title fade-in">AVENGERS INITIATIVE</h2>
+        <div class="timeline">
+            <div class="timeline-item fade-in">
+                <div class="timeline-content">
+                    <div class="timeline-date">2008</div>
+                    <h3 class="timeline-title">Iron Man Emerges</h3>
+                    <p class="timeline-desc">Tony Stark reveals himself as Iron Man, marking the beginning of the modern superhero era.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-content">
+                    <div class="timeline-date">2011</div>
+                    <h3 class="timeline-title">Captain America Returns</h3>
+                    <p class="timeline-desc">Steve Rogers awakens from the ice after 70 years, ready to fight for a new generation.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-content">
+                    <div class="timeline-date">2012</div>
+                    <h3 class="timeline-title">The Avengers Assemble</h3>
+                    <p class="timeline-desc">Earth's Mightiest Heroes unite for the first time to stop Loki's invasion of New York.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-content">
+                    <div class="timeline-date">2018</div>
+                    <h3 class="timeline-title">Infinity War</h3>
+                    <p class="timeline-desc">Thanos collects all Infinity Stones, wiping out half of all life in the universe.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <div class="timeline-content">
+                    <div class="timeline-date">2019</div>
+                    <h3 class="timeline-title">Endgame</h3>
+                    <p class="timeline-desc">The Avengers execute a time heist to undo the snap and defeat Thanos once and for all.</p>
+                </div>
+                <div class="timeline-dot"></div>
             </div>
         </div>
     </section>
-    
-    <!-- Choose Your Avenger Section -->
-    <section id="recommendation">
-        <h2 class="section-title">CHOOSE YOUR AVENGER</h2>
-        <div class="recommendation-section">
-            <p class="hero-tagline">Answer a simple question to find out which Avenger matches your personality.</p>
-            <div class="recommendation-box">
-                <h3>What's your primary strength?</h3>
-                <div class="personality-options">
-                    <button class="personality-btn" data-personality="intellect">Intellect & Technology</button>
-                    <button class="personality-btn" data-personality="strength">Strength & Power</button>
-                    <button class="personality-btn" data-personality="leadership">Leadership & Strategy</button>
-                    <button class="personality-btn" data-personality="agility">Agility & Stealth</button>
-                    <button class="personality-btn" data-personality="magic">Mystic Arts & Magic</button>
+
+    <!-- Power Comparison Section -->
+    <section id="powers">
+        <h2 class="section-title fade-in">POWER LEVELS</h2>
+        <div class="power-comparison">
+            <div class="comparison-grid">
+                <div class="stat-card fade-in">
+                    <div class="stat-name">Strength</div>
+                    <div class="stat-bar-container">
+                        <div class="stat-bar" style="width: 0%" data-width="95%"></div>
+                    </div>
+                    <div class="stat-value">95</div>
                 </div>
-                <button class="recommend-btn" id="recommendBtn">FIND MY AVENGER</button>
-                <div class="recommendation-result" id="recommendationResult">
-                    <!-- Result will be populated by JavaScript -->
+
+                <div class="stat-card fade-in">
+                    <div class="stat-name">Intelligence</div>
+                    <div class="stat-bar-container">
+                        <div class="stat-bar" style="width: 0%" data-width="100%"></div>
+                    </div>
+                    <div class="stat-value">100</div>
+                </div>
+
+                <div class="stat-card fade-in">
+                    <div class="stat-name">Speed</div>
+                    <div class="stat-bar-container">
+                        <div class="stat-bar" style="width: 0%" data-width="85%"></div>
+                    </div>
+                    <div class="stat-value">85</div>
+                </div>
+
+                <div class="stat-card fade-in">
+                    <div class="stat-name">Durability</div>
+                    <div class="stat-bar-container">
+                        <div class="stat-bar" style="width: 0%" data-width="90%"></div>
+                    </div>
+                    <div class="stat-value">90</div>
+                </div>
+
+                <div class="stat-card fade-in">
+                    <div class="stat-name">Energy</div>
+                    <div class="stat-bar-container">
+                        <div class="stat-bar" style="width: 0%" data-width="100%"></div>
+                    </div>
+                    <div class="stat-value">100</div>
+                </div>
+
+                <div class="stat-card fade-in">
+                    <div class="stat-name">Fighting Skills</div>
+                    <div class="stat-bar-container">
+                        <div class="stat-bar" style="width: 0%" data-width="80%"></div>
+                    </div>
+                    <div class="stat-value">80</div>
                 </div>
             </div>
         </div>
     </section>
-    
+
+    <!-- Gallery Section -->
+    <section id="gallery">
+        <h2 class="section-title fade-in">ICONIC MOMENTS</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item fade-in">
+                <img src="https://images.unsplash.com/photo-1632345031430-8161e653b1c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                     alt="Battle of New York">
+                <div class="gallery-overlay">
+                    <div class="gallery-title">Battle of New York</div>
+                </div>
+            </div>
+
+            <div class="gallery-item fade-in">
+                <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                     alt="Age of Ultron">
+                <div class="gallery-overlay">
+                    <div class="gallery-title">Age of Ultron</div>
+                </div>
+            </div>
+
+            <div class="gallery-item fade-in">
+                <img src="https://images.unsplash.com/photo-1560179707-f14e90ef3623?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                     alt="Civil War">
+                <div class="gallery-overlay">
+                    <div class="gallery-title">Civil War</div>
+                </div>
+            </div>
+
+            <div class="gallery-item fade-in">
+                <img src="https://images.unsplash.com/photo-1583288385353-580b7d7f5a7e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                     alt="Infinity War">
+                <div class="gallery-overlay">
+                    <div class="gallery-title">Infinity War</div>
+                </div>
+            </div>
+
+            <div class="gallery-item fade-in">
+                <img src="https://images.unsplash.com/photo-1574269909862-7e1d92bb2bb7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                     alt="Endgame">
+                <div class="gallery-overlay">
+                    <div class="gallery-title">Endgame</div>
+                </div>
+            </div>
+
+            <div class="gallery-item fade-in">
+                <img src="https://images.unsplash.com/photo-1632345031427-9e1cbd68f15c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                     alt="Avengers Assemble">
+                <div class="gallery-overlay">
+                    <div class="gallery-title">Avengers Assemble</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Avenger Chooser Section -->
+    <section>
+        <h2 class="section-title fade-in">FIND YOUR AVENGER</h2>
+        <div class="chooser fade-in">
+            <button class="chooser-btn" id="chooseBtn">CHOOSE YOUR AVENGER</button>
+            <div class="chosen-avenger" id="chosenAvenger">
+                <h3 id="chosenName"></h3>
+                <p id="chosenDesc"></p>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer>
-        <div class="footer-logo">AVENGERS</div>
-        <p class="footer-text">Earth's Mightiest Heroes. Assembled to fight the foes no single superhero could withstand.</p>
-        <div class="social-icons">
-            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
-        </div>
-        <p class="copyright">&copy; 2023 Marvel Cinematic Universe. All rights reserved. | This is a fan-made showcase website.</p>
+        <p>&copy; 2025 MARVEL STUDIOS. ALL RIGHTS RESERVED.</p>
+        <p>This is a fan-made showcase celebrating Earth's Mightiest Heroes.</p>
     </footer>
-    
+
     <script>
-        // Character Data
-        const characters = [
-            {
-                id: 1,
-                name: "Iron Man",
-                realName: "Tony Stark",
-                image: "https://i.ibb.co/5xY7Xx1/iron-man.jpg",
-                quote: "I am Iron Man.",
-                backstory: "Genius billionaire Tony Stark built a powered suit of armor to escape captivity and now uses his technology to protect the world as Iron Man.",
-                powers: ["Powered Armor", "Flight", "Repulsor Beams", "AI Assistance"],
-                color: "#e62429",
-                abilities: ["fa-rocket", "fa-bolt", "fa-shield-alt", "fa-microchip"],
-                year: "2008",
-                movies: ["Iron Man", "The Avengers", "Iron Man 3", "Avengers: Endgame"]
-            },
-            {
-                id: 2,
-                name: "Captain America",
-                realName: "Steve Rogers",
-                image: "https://i.ibb.co/5xY7Xx1/captain-america.jpg",
-                quote: "I can do this all day.",
-                backstory: "Enhanced to the peak of human perfection, Steve Rogers wields an indestructible shield and leads the Avengers with unwavering moral courage.",
-                powers: ["Super Strength", "Enhanced Agility", "Indestructible Shield", "Tactical Genius"],
-                color: "#3a86ff",
-                abilities: ["fa-shield-alt", "fa-star", "fa-fist-raised", "fa-brain"],
-                year: "2011",
-                movies: ["Captain America: The First Avenger", "The Avengers", "Civil War", "Endgame"]
-            },
-            {
-                id: 3,
-                name: "Thor",
-                realName: "Thor Odinson",
-                image: "https://i.ibb.co/5xY7Xx1/thor.jpg",
-                quote: "I choose to run towards my problems and not away from them.",
-                backstory: "The Norse God of Thunder wields the enchanted hammer Mjolnir and commands the lightning itself to protect both his home realm of Asgard and Earth.",
-                powers: ["God of Thunder", "Mjolnir & Stormbreaker", "Longevity", "Weather Control"],
-                color: "#ffd700",
-                abilities: ["fa-bolt", "fa-hammer", "fa-crown", "fa-wind"],
-                year: "2011",
-                movies: ["Thor", "The Avengers", "Ragnarok", "Love and Thunder"]
-            },
-            {
-                id: 4,
-                name: "Hulk",
-                realName: "Bruce Banner",
-                image: "https://i.ibb.co/5xY7Xx1/hulk.jpg",
-                quote: "That's my secret, Captain. I'm always angry.",
-                backstory: "Scientist Bruce Banner transforms into the incredibly powerful Hulk when angered, making him one of the strongest beings in the universe.",
-                powers: ["Superhuman Strength", "Invulnerability", "Rage Empowerment", "Genius Intellect"],
-                color: "#06d6a0",
-                abilities: ["fa-fist-raised", "fa-heart", "fa-angry", "fa-atom"],
-                year: "2008",
-                movies: ["The Incredible Hulk", "The Avengers", "Ragnarok", "Endgame"]
-            },
-            {
-                id: 5,
-                name: "Black Widow",
-                realName: "Natasha Romanoff",
-                image: "https://i.ibb.co/5xY7Xx1/black-widow.jpg",
-                quote: "I'm done running from my past.",
-                backstory: "A highly trained former KGB assassin turned S.H.I.E.L.D. agent, Black Widow is a master of espionage and hand-to-hand combat.",
-                powers: ["Master Martial Artist", "Espionage Expert", "Weapons Specialist", "Acrobatics"],
-                color: "#8338ec",
-                abilities: ["fa-user-secret", "fa-fighter-jet", "fa-gun", "fa-running"],
-                year: "2010",
-                movies: ["Iron Man 2", "The Avengers", "Winter Soldier", "Endgame"]
-            },
-            {
-                id: 6,
-                name: "Doctor Strange",
-                realName: "Stephen Strange",
-                image: "https://i.ibb.co/5xY7Xx1/doctor-strange.jpg",
-                quote: "We never lose our demons. We only learn to live above them.",
-                backstory: "Once a brilliant neurosurgeon, Stephen Strange now protects Earth from mystical threats as the Sorcerer Supreme, Master of the Mystic Arts.",
-                powers: ["Mystic Arts", "Time Manipulation", "Astral Projection", "Dimensional Travel"],
-                color: "#00bbf9",
-                abilities: ["fa-hat-wizard", "fa-clock", "fa-eye", "fa-door-open"],
-                year: "2016",
-                movies: ["Doctor Strange", "Infinity War", "Multiverse of Madness"]
-            },
-            {
-                id: 7,
-                name: "Spider-Man",
-                realName: "Peter Parker",
-                image: "https://i.ibb.co/5xY7Xx1/spider-man.jpg",
-                quote: "With great power comes great responsibility.",
-                backstory: "Bitten by a radioactive spider, teenager Peter Parker uses his spider-like abilities to fight crime while balancing his life as a high school student.",
-                powers: ["Wall-Crawling", "Spider-Sense", "Web-Slinging", "Super Agility"],
-                color: "#e63946",
-                abilities: ["fa-spider", "fa-eye", "fa-web", "fa-running"],
-                year: "2016",
-                movies: ["Civil War", "Homecoming", "Far From Home", "No Way Home"]
-            }
-        ];
+        // ===== CUSTOM CURSOR =====
+        const cursor = document.querySelector('.custom-cursor');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
 
-        // Timeline Data
-        const timelineEvents = [
-            { year: "2008", event: "Iron Man's debut and the formation of S.H.I.E.L.D.'s Avengers Initiative" },
-            { year: "2012", event: "The Battle of New York - Avengers assemble for the first time" },
-            { year: "2015", event: "The fall of S.H.I.E.L.D. and the creation of Ultron" },
-            { year: "2016", event: "Civil War divides the Avengers into two opposing factions" },
-            { year: "2018", event: "The Blip - Thanos wipes out half of all life in the universe" },
-            { year: "2023", event: "The Battle of Earth - Avengers reverse the Blip and defeat Thanos" },
-            { year: "2024", event: "New Avengers team forms to protect the Multiverse" }
-        ];
-
-        // Personality to Character Mapping
-        const personalityMap = {
-            intellect: "Iron Man",
-            strength: "Hulk",
-            leadership: "Captain America",
-            agility: "Black Widow",
-            magic: "Doctor Strange"
-        };
-
-        // DOM Elements
-        const characterGrid = document.getElementById('characterGrid');
-        const spotlightContainer = document.getElementById('spotlightContainer');
-        const spotlightContent = document.getElementById('spotlightContent');
-        const backToGridBtn = document.getElementById('backToGrid');
-        const exploreBtn = document.getElementById('exploreBtn');
-        const themeToggle = document.getElementById('themeToggle');
-        const timelineContainer = document.querySelector('.timeline');
-        const personalityBtns = document.querySelectorAll('.personality-btn');
-        const recommendBtn = document.getElementById('recommendBtn');
-        const recommendationResult = document.getElementById('recommendationResult');
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            generateCharacterCards();
-            generateTimeline();
-            setupEventListeners();
-            initParticles();
-            setupTiltEffect();
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
 
-        // Generate Character Cards
-        function generateCharacterCards() {
-            characterGrid.innerHTML = '';
-            
-            characters.forEach(character => {
-                const card = document.createElement('div');
-                card.className = 'character-card tilt-effect';
-                card.dataset.id = character.id;
-                
-                card.innerHTML = `
-                    <div class="character-image">
-                        <div class="character-overlay"></div>
-                        <img src="${character.image}" alt="${character.name}">
-                        <h3 class="character-name">${character.name}</h3>
-                    </div>
-                    <div class="character-info">
-                        <p class="character-quote">"${character.quote}"</p>
-                        <div class="character-abilities">
-                            ${character.abilities.map(ability => `
-                                <div class="ability-icon">
-                                    <i class="fas ${ability}"></i>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-                
-                characterGrid.appendChild(card);
-            });
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Cursor active state on clickable elements
+        document.querySelectorAll('a, button, .character-card, .gallery-item').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+        });
+
+        // ===== PARTICLES =====
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.width = Math.random() * 5 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            particlesContainer.appendChild(particle);
         }
 
-        // Generate Timeline
-        function generateTimeline() {
-            timelineContainer.innerHTML = '';
-            
-            timelineEvents.forEach((event, index) => {
-                const item = document.createElement('div');
-                item.className = 'timeline-item';
-                
-                item.innerHTML = `
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-year">${event.year}</div>
-                        <p>${event.event}</p>
-                    </div>
-                `;
-                
-                timelineContainer.appendChild(item);
-            });
-        }
+        // ===== LOADING SCREEN =====
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hide');
+            }, 1500);
+        });
 
-        // Setup Event Listeners
-        function setupEventListeners() {
-            // Character card click
-            document.addEventListener('click', function(e) {
-                const card = e.target.closest('.character-card');
-                if (card) {
-                    const id = parseInt(card.dataset.id);
-                    showCharacterSpotlight(id);
-                }
-            });
-            
-            // Back to grid button
-            backToGridBtn.addEventListener('click', function() {
-                spotlightContainer.classList.remove('spotlight-active');
-                document.getElementById('characters').scrollIntoView({ behavior: 'smooth' });
-            });
-            
-            // Explore button
-            exploreBtn.addEventListener('click', function() {
-                document.getElementById('characters').scrollIntoView({ behavior: 'smooth' });
-            });
-            
-            // Theme toggle
-            themeToggle.addEventListener('click', function() {
-                document.body.classList.toggle('ultra-dark');
-                const icon = themeToggle.querySelector('i');
-                if (document.body.classList.contains('ultra-dark')) {
-                    icon.className = 'fas fa-sun';
-                    themeToggle.setAttribute('title', 'Toggle Light Mode');
-                } else {
-                    icon.className = 'fas fa-moon';
-                    themeToggle.setAttribute('title', 'Toggle Ultra Dark Mode');
-                }
-            });
-            
-            // Personality selection
-            personalityBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    personalityBtns.forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-            
-            // Recommend button
-            recommendBtn.addEventListener('click', showRecommendation);
-            
-            // Navigation links
-            document.querySelectorAll('nav a').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetSection = document.querySelector(targetId);
-                    if (targetSection) {
-                        targetSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                });
-            });
-        }
-
-        // Show Character Spotlight
-        function showCharacterSpotlight(id) {
-            const character = characters.find(c => c.id === id);
-            if (!character) return;
-            
-            spotlightContent.innerHTML = `
-                <div class="spotlight-image">
-                    <img src="${character.image}" alt="${character.name}">
-                </div>
-                <div class="spotlight-details">
-                    <h2>${character.name}</h2>
-                    <h3>${character.realName}</h3>
-                    <p class="bio-text">${character.backstory}</p>
-                    <h3>Powers & Abilities</h3>
-                    <div class="powers-grid">
-                        ${character.powers.map(power => `
-                            <div class="power-item">
-                                <h4>${power}</h4>
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div class="quote-container">
-                        <i class="fas fa-quote-left"></i>
-                        <p>"${character.quote}"</p>
-                    </div>
-                </div>
-            `;
-            
-            spotlightContainer.classList.add('spotlight-active');
-            spotlightContainer.scrollIntoView({ behavior: 'smooth' });
-            
-            // Change accent colors based on character
-            document.documentElement.style.setProperty('--accent-red', character.color);
-        }
-
-        // Show Recommendation
-        function showRecommendation() {
-            const activeBtn = document.querySelector('.personality-btn.active');
-            if (!activeBtn) {
-                alert('Please select a personality trait first!');
-                return;
-            }
-            
-            const personality = activeBtn.dataset.personality;
-            const characterName = personalityMap[personality];
-            const character = characters.find(c => c.name === characterName);
-            
-            if (!character) return;
-            
-            recommendationResult.innerHTML = `
-                <div class="result-avatar">
-                    <img src="${character.image}" alt="${character.name}">
-                </div>
-                <h3>Your Avenger Match Is: ${character.name}</h3>
-                <p>Based on your selection, you share traits with ${character.realName}, also known as ${character.name}.</p>
-                <p>${character.backstory}</p>
-                <div class="character-abilities" style="justify-content: center; margin-top: 1.5rem;">
-                    ${character.abilities.map(ability => `
-                        <div class="ability-icon">
-                            <i class="fas ${ability}"></i>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-            
-            recommendationResult.style.display = 'block';
-            recommendationResult.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-
-        // Setup Tilt Effect for Cards
-        function setupTiltEffect() {
-            const cards = document.querySelectorAll('.character-card');
-            
-            cards.forEach(card => {
-                card.addEventListener('mousemove', function(e) {
-                    const rect = this.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    
-                    const rotateY = (x - centerX) / 25;
-                    const rotateX = (centerY - y) / 25;
-                    
-                    this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-15px)`;
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(-15px)';
-                });
-            });
-        }
-
-        // Initialize Particle Background
-        function initParticles() {
-            // Simple particle simulation since we can't load external libraries
-            const particlesContainer = document.getElementById('particles-js');
-            const particleCount = 50;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.style.position = 'absolute';
-                particle.style.width = Math.random() * 3 + 1 + 'px';
-                particle.style.height = particle.style.width;
-                particle.style.backgroundColor = i % 3 === 0 ? 'rgba(230, 36, 41, 0.5)' : 
-                                                i % 3 === 1 ? 'rgba(58, 134, 255, 0.5)' : 
-                                                'rgba(255, 215, 0, 0.5)';
-                particle.style.borderRadius = '50%';
-                particle.style.left = Math.random() * 100 + 'vw';
-                particle.style.top = Math.random() * 100 + 'vh';
-                particle.style.boxShadow = '0 0 10px currentColor';
-                
-                particlesContainer.appendChild(particle);
-                
-                // Animate particle
-                animateParticle(particle);
-            }
-        }
-
-        // Animate Particle
-        function animateParticle(element) {
-            let x = parseFloat(element.style.left);
-            let y = parseFloat(element.style.top);
-            let dx = (Math.random() - 0.5) * 0.3;
-            let dy = (Math.random() - 0.5) * 0.3;
-            
-            function move() {
-                x += dx;
-                y += dy;
-                
-                if (x > 100) x = 0;
-                if (x < 0) x = 100;
-                if (y > 100) y = 0;
-                if (y < 0) y = 100;
-                
-                element.style.left = x + 'vw';
-                element.style.top = y + 'vh';
-                
-                requestAnimationFrame(move);
-            }
-            
-            move();
-        }
-
-        // Scroll Animations
+        // ===== SCROLL ANIMATIONS =====
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -100px 0px'
         };
 
-        const observer = new IntersectionObserver(function(entries) {
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in');
+                    entry.target.classList.add('visible');
+                    
+                    // Animate stat bars
+                    if (entry.target.querySelector('.stat-bar')) {
+                        const bars = entry.target.querySelectorAll('.stat-bar');
+                        bars.forEach(bar => {
+                            bar.style.width = bar.dataset.width;
+                        });
+                    }
                 }
             });
         }, observerOptions);
 
-        // Observe elements for scroll animations
-        document.querySelectorAll('.character-card, .timeline-item, .section-title').forEach(el => {
-            observer.observe(el);
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // ===== THEME TOGGLE =====
+        const themeToggle = document.getElementById('themeToggle');
+        let ultraDark = false;
+
+        themeToggle.addEventListener('click', () => {
+            ultraDark = !ultraDark;
+            document.body.style.background = ultraDark ? '#000000' : '';
+            themeToggle.textContent = ultraDark ? 'Light Mode' : 'Ultra Dark';
+        });
+
+        // ===== AVENGER CHOOSER =====
+        const avengers = [
+            { 
+                name: 'IRON MAN', 
+                desc: 'You\'re a genius innovator with a sharp wit. Technology is your superpower, and you always find creative solutions to impossible problems.' 
+            },
+            { 
+                name: 'CAPTAIN AMERICA', 
+                desc: 'You have unwavering moral compass and natural leadership. You inspire others with your courage and never give up on what\'s right.' 
+            },
+            { 
+                name: 'THOR', 
+                desc: 'You\'re noble and powerful, with a heart as big as your strength. You face challenges head-on and protect those you care about.' 
+            },
+            { 
+                name: 'HULK', 
+                desc: 'You have incredible strength when needed, but also a brilliant mind. You\'re learning to balance power with intelligence.' 
+            },
+            { 
+                name: 'BLACK WIDOW', 
+                desc: 'You\'re strategic, skilled, and always three steps ahead. Your past shapes you, but doesn\'t define you.' 
+            },
+            { 
+                name: 'DOCTOR STRANGE', 
+                desc: 'You\'re analytical and dedicated to mastering your craft. You understand that true power comes from knowledge and discipline.' 
+            },
+            { 
+                name: 'SPIDER-MAN', 
+                desc: 'You\'re young, energetic, and always trying to do the right thing. With great power comes great responsibility.' 
+            }
+        ];
+
+        document.getElementById('chooseBtn').addEventListener('click', () => {
+            const chosen = avengers[Math.floor(Math.random() * avengers.length)];
+            document.getElementById('chosenName').textContent = chosen.name;
+            document.getElementById('chosenDesc').textContent = chosen.desc;
+            document.getElementById('chosenAvenger').classList.add('show');
+        });
+
+        // ===== CHARACTER CARD TILT =====
+        document.querySelectorAll('.character-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-20px) scale(1.05)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+
+        // ===== SMOOTH SCROLL =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ===== CHARACTER SPOTLIGHT INTERACTIVITY =====
+        document.querySelectorAll('.character-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const character = this.dataset.character;
+                const spotlightTitle = document.querySelector('.spotlight-content h2');
+                const spotlightImage = document.querySelector('.spotlight-image');
+                const spotlightSubtitle = document.querySelector('.spotlight-content .subtitle');
+                
+                // Update spotlight based on clicked character
+                switch(character) {
+                    case 'ironman':
+                        spotlightTitle.textContent = 'IRON MAN';
+                        spotlightSubtitle.textContent = 'Tony Stark';
+                        spotlightImage.src = 'https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80';
+                        break;
+                    case 'cap':
+                        spotlightTitle.textContent = 'CAPTAIN AMERICA';
+                        spotlightSubtitle.textContent = 'Steve Rogers';
+                        spotlightImage.src = 'https://images.unsplash.com/photo-1620336655055-bd87c5d1d73f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80';
+                        break;
+                    case 'thor':
+                        spotlightTitle.textContent = 'THOR';
+                        spotlightSubtitle.textContent = 'Thor Odinson';
+                        spotlightImage.src = 'https://images.unsplash.com/photo-1637599101096-89dc2e1e7cec?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80';
+                        break;
+                }
+                
+                // Scroll to spotlight section
+                document.querySelector('#spotlight').scrollIntoView({ behavior: 'smooth' });
+            });
         });
     </script>
 </body>
